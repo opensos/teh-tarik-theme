@@ -1,30 +1,30 @@
 # _data/photos.yml
 # Tambah atau buang gambar di sini — laman akan update secara automatik.
 
-- src: /teh-tarik-theme/img/Free_Palestine.png
+- src: /img/Free_Palestine.png
   alt: Free Palestine
 
-- src: /teh-tarik-theme/img/siam.jpeg
+- src: /img/siam.jpeg
   alt: Siamese Dream
   caption: Siamese Dream
 
-- src: /teh-tarik-theme/img/IMG_3274.jpeg
+- src: /img/IMG_3274.jpeg
   alt: Jempol
   caption: jempol
 
-- src: /teh-tarik-theme/img/IMG_2969.jpg
+- src: /img/IMG_2969.jpg
   alt: Ekon
   caption: repair ekon 14/07/2025
 
-- src: /teh-tarik-theme/img/IMG_2922.jpg
+- src: /img/IMG_2922.jpg
   alt: Badminton
   caption: badminton
 
-- src: /teh-tarik-theme/img/2DE2D047-B4A8-468D-A0B3-B5554AD3359D_1_102_o.jpeg
+- src: /img/2DE2D047-B4A8-468D-A0B3-B5554AD3359D_1_102_o.jpeg
   alt: Sky Full of Stars
   caption: A Sky Full of Stars
 
-- src: /teh-tarik-theme/img/2403_0214.jpeg
+- src: /img/2403_0214.jpeg
   alt: Color
   caption: color
 
