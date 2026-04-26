@@ -1,7 +1,7 @@
 title: Teh Tarik
 description: A personal photo journal
-baseurl: ""
-url: ""
+baseurl: "/teh-tarik-theme"
+url: "https://opensos.github.io/teh-tarik-theme"
 
 # Build settings
 markdown: kramdown
