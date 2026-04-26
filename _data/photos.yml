@@ -1,7 +1,7 @@
 # _data/photos.yml
 # Tambah atau buang gambar di sini — laman akan update secara automatik.
 
-- src: /img/Free_Palestine.png
+- src: /teh-tarik-theme/img/Free_Palestine.png
   alt: Free Palestine
 
 - src: /img/IMG_3274.jpeg
