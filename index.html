@@ -1,0 +1,28 @@
+---
+layout: default
+title: Home
+---
+
+<!-- Site title -->
+<div class="mt-6 text-center">
+  <p class="text-xs text-gray-500">{{ site.title }}</p>
+</div>
+
+<!-- Photo feed -->
+<div class="space-y-12 pt-10">
+
+  {% for photo in site.data.photos %}
+
+    <div class="flex justify-center items-center">
+      <img src="{{ photo.src }}" alt="{{ photo.alt }}" />
+    </div>
+
+    {% if photo.caption %}
+    <div class="text-center">
+      <p class="text-xs text-gray-500">{{ photo.caption }}</p>
+    </div>
+    {% endif %}
+
+  {% endfor %}
+
+</div>
