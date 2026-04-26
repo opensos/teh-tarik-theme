@@ -8,21 +8,89 @@ title: Home
   <p class="text-xs text-gray-500">{{ site.title }}</p>
 </div>
 
-<!-- Photo feed -->
-<div class="space-y-12 pt-10">
+<!-- Photo feed — gambar diappend ke sini oleh JS -->
+<div id="photo-feed" class="space-y-12 pt-10"></div>
 
-  {% for photo in site.data.photos %}
-
-    <div class="flex justify-center items-center">
-      <img src="{{ photo.src }}" alt="{{ photo.alt }}" />
-    </div>
-
-    {% if photo.caption %}
-    <div class="text-center">
-      <p class="text-xs text-gray-500">{{ photo.caption }}</p>
-    </div>
-    {% endif %}
-
-  {% endfor %}
-
+<!-- Sentinel — bila elemen ni visible, batch seterusnya akan load -->
+<div id="sentinel" class="py-8 text-center text-xs text-gray-400">
+  <span id="sentinel-label"></span>
 </div>
+
+<script>
+  const photos = [
+    {% for photo in site.data.photos %}
+    {
+      src: "{{ photo.src }}",
+      alt: "{{ photo.alt }}",
+      caption: "{{ photo.caption }}"
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+
+  const BATCH = 10;
+  let loaded = 0;
+  let isLoading = false;
+
+  function createPhotoEl(photo) {
+    const wrap = document.createElement('div');
+    wrap.style.opacity = '0';
+    wrap.style.transform = 'translateY(16px)';
+    wrap.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+
+    wrap.innerHTML = `
+      <div class="flex justify-center items-center">
+        <img src="${photo.src}" alt="${photo.alt}" loading="lazy" style="max-width:100%;height:auto;" />
+      </div>
+      ${photo.caption ? `<div class="text-center mt-2"><p class="text-xs text-gray-500">${photo.caption}</p></div>` : ''}
+    `;
+
+    // Fade-in bila gambar masuk viewport
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05 });
+
+    requestAnimationFrame(() => fadeObserver.observe(wrap));
+    return wrap;
+  }
+
+  function loadBatch() {
+    if (isLoading || loaded >= photos.length) return;
+    isLoading = true;
+
+    const feed = document.getElementById('photo-feed');
+    const label = document.getElementById('sentinel-label');
+    label.textContent = 'loading...';
+
+    const batch = photos.slice(loaded, loaded + BATCH);
+
+    setTimeout(() => {
+      batch.forEach(photo => feed.appendChild(createPhotoEl(photo)));
+      loaded += batch.length;
+
+      if (loaded >= photos.length) {
+        label.textContent = '— end —';
+        sentinelObserver.disconnect();
+      } else {
+        label.textContent = '';
+      }
+
+      isLoading = false;
+    }, 200);
+  }
+
+  // Watch sentinel — trigger loadBatch 200px sebelum user sampai ke bawah
+  const sentinelObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) loadBatch();
+  }, { rootMargin: '200px' });
+
+  window.addEventListener('load', () => {
+    sentinelObserver.observe(document.getElementById('sentinel'));
+    loadBatch();
+  });
+</script>
